@@ -11,7 +11,7 @@ public class Topic_01_Check_Environment {
 	}
 
 	@Test
-	public void f() {
+	public void TC_01() {
 	}
 
 	@AfterClass
