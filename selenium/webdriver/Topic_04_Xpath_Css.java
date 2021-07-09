@@ -1,16 +1,17 @@
 package webdriver;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class Topic_04_Xpath_Css {
 
@@ -39,6 +40,18 @@ public class Topic_04_Xpath_Css {
 	By passwordGuruInValidError = By.id("advice-validate-password-pass");
 	By loginButton = By.xpath("//button[@title='Login']");
 	By messageValue = By.xpath("//ul[@class='messages']//span");
+	By createAAcountButton = By.xpath("//a[@title='Create an Account']");
+	By addFirstNameInput = By.id("firstname");
+	By addMiddleNameInput = By.id("middlename");
+	By addLastNameInput = By.id("lastname");
+	By addEmailInput = By.id("email_address");
+	By addPasswordInput = By.name("password");
+	By addConfirmPasswordInput = By.name("confirmation");
+	By addRegisterButton = By.xpath("//button[@title='Register']");
+	By addContactInforValue = By.xpath("//div[@class='col-1']//p");
+	By accountMenu = By.xpath("//a//span[text()='Account']");
+	By logOutLink = By.xpath("//a[@title='Log Out']");
+	By welComeMsg = By.xpath("//div[@class='welcome-msg']//strong");
 
 	String firstNameValue = "tester";
 	String emailValue = "tester26@gmail.com";
@@ -46,6 +59,14 @@ public class Topic_04_Xpath_Css {
 	String passwordValue = "tester26@";
 	String passwordCValue = "tester26@";
 	String phoneValue = "0351234567";
+
+	String addFirstNameValue = "firstname";
+	String addMiddleNameValue = "middlename";
+	String addLastNameValue = "lastname";
+	String addEmailValue = "autotester";
+	String addPasswordValue = "password";
+	String addConfirmPasswordValue = "password";
+	String fullName;
 
 	String demoguru99Url = "http://live.demoguru99.com/";
 	String aladaUrl = "https://alada.vn/tai-khoan/dang-ky.html";
@@ -254,6 +275,59 @@ public class Topic_04_Xpath_Css {
 		driver.findElement(loginButton).click();
 		// Check error message
 		assertEquals(driver.findElement(messageValue).getText(), "Invalid login or password.");
+	}
+
+	@Test
+	public void Logic_TC_05_Create_New_A_Account() {
+		// Truy cập vào trang http://live.demoguru99.com/
+		driver.get(demoguru99Url);
+		// Click vào link "My Account" để tới trang đăng nhập
+		driver.findElement(myAccountLink).click();
+		// Click vào button "Create An Account"
+		driver.findElement(createAAcountButton).click();
+		// Nhập vào tất cả các fields
+		driver.findElement(addFirstNameInput).sendKeys(addFirstNameValue);
+		driver.findElement(addMiddleNameInput).sendKeys(addMiddleNameValue);
+		driver.findElement(addLastNameInput).sendKeys(addLastNameValue);
+		Random rand = new Random();
+		addEmailValue += rand.nextInt(999) + "@gmail.com";
+		driver.findElement(addEmailInput).sendKeys(addEmailValue);
+		driver.findElement(addPasswordInput).sendKeys(addPasswordValue);
+		driver.findElement(addConfirmPasswordInput).sendKeys(addConfirmPasswordValue);
+		// Click button Register
+		driver.findElement(addRegisterButton).click();
+		// Verify message xuất hiện khi đăng kí thành công
+		assertEquals(driver.findElement(messageValue).getText(), "Thank you for registering with Main Website Store.");
+		assertTrue(driver.findElement(messageValue).isDisplayed());
+		// Verify thông tin được tạo ở dashboard
+		fullName = addFirstNameValue + " " + addMiddleNameValue + " " + addLastNameValue;
+		assertTrue(driver.findElement(welComeMsg).getText().contains(fullName));
+		assertTrue(driver.findElement(addContactInforValue).getText().contains(fullName));
+		assertTrue(driver.findElement(addContactInforValue).getText().contains(addEmailValue));
+		driver.findElement(accountMenu).click();
+		driver.findElement(logOutLink).click();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(driver.getTitle(), "Home page");
+	}
+
+	@Test
+	public void Logic_TC_06_Login_With_Valid_Email_And_Password() {
+		// Click vào link "My Account" để tới trang đăng nhập
+		driver.findElement(myAccountLink).click();
+		// Login với thông tin đăng nhập đã tạo ở trên
+		driver.findElement(emailGuruInput).sendKeys(addEmailValue);
+		driver.findElement(passwordGuruInput).sendKeys(addPasswordValue);
+		// Click vào button Login
+		driver.findElement(loginButton).click();
+		// Verify các thông tin đươc hiển thị
+		assertTrue(driver.findElement(welComeMsg).getText().contains(fullName));
+		assertTrue(driver.findElement(addContactInforValue).getText().contains(fullName));
+		assertTrue(driver.findElement(addContactInforValue).getText().contains(addEmailValue));
 	}
 
 	@AfterClass
