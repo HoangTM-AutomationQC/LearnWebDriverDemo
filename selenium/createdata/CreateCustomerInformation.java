@@ -23,9 +23,9 @@ public class CreateCustomerInformation {
 		card_type = sc.nextInt();
 		System.out.print("Nhập giá trị product_code : ");
 		product_code = sc.nextInt();
-		writeFile("C:\\Users\\ASUS\\OneDrive\\Desktop\\customerFile.txt", dataInfor(min, max, bin, card_type, product_code).get(0));
+		writeFile("customerFile.txt", dataInfor(min, max, bin, card_type, product_code).get(0));
 		// Write batch data to file
-		writeFile("C:\\Users\\ASUS\\OneDrive\\Desktop\\batchIssuanceFile.txt", dataInfor(min, max, bin, card_type, product_code).get(1));
+		writeFile("batchIssuanceFile.txt", dataInfor(min, max, bin, card_type, product_code).get(1));
 	}
 
 	private static ArrayList<String> dataInfor(int min, int max, int bin, int card_type, int product_code) {
