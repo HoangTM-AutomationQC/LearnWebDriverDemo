@@ -96,8 +96,9 @@ public class Topic_06_Web_Element_Command_III {
 		// Kiểm tra sign up button không còn disable khi không bất kì có password không hợp lệ
 		assertTrue(driver.findElement(signupBy).isEnabled());
 
-		// Kiểm tra checkbox được chọn sau khi click chọn thành công
+		// Click chọn vào checkbox
 		driver.findElement(newsLetterBy).click();
+		// Kiểm tra checkbox được chọn sau khi click chọn thành công
 		assertTrue(driver.findElement(newsLetterBy).isSelected());
 	}
 
